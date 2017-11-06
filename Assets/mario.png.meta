@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 96bf37e027a12495cb0316eba30eb648
-timeCreated: 1509947923
+timeCreated: 1509952833
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,7 @@ TextureImporter:
     21300004: mario_run2
     21300006: mario_run3
     21300008: mario_skid
+    21300010: mario_jump
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -143,6 +144,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 69
+        y: 18
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mario_jump
+      rect:
+        serializedVersion: 2
+        x: 86
         y: 18
         width: 16
         height: 32

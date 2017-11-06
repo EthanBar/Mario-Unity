@@ -11,6 +11,7 @@ public class Mario : MonoBehaviour {
 
 	private float xvel, yvel;
 	private JumpState jump;
+	private bool canJump;
 
 	private const float conversion = 65536; // == 0x10000
 	private const float maxX = 10496 / conversion;
@@ -35,17 +36,19 @@ public class Mario : MonoBehaviour {
 	void Start () {
 		xvel = 0;
 		yvel = 0;
-		jump = JumpState.AtRest;
+		jump = JumpState.SlowJump;
+		canJump = true;
 		rb2d = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
-	private int invs = 0;
+	private int invs = 0; // Buffer frames
 	
 	// Update is called once per frame
 	void FixedUpdate() {
-		if (Input.GetKeyDown(KeyCode.Space) && jump == JumpState.AtRest) {
+		if (Input.GetKeyDown(KeyCode.Space) && canJump) {
+			canJump = false;
 			invs = 3;
 			if (Mathf.Abs(xvel) > fastJumpReq) {
 				jump = JumpState.FastJump;
@@ -97,34 +100,32 @@ public class Mario : MonoBehaviour {
 		}
 		
 		// Y decay
-		if (jump != JumpState.AtRest) {
-			if (Input.GetKey(KeyCode.Space)) {
-				switch (jump) {
-					case JumpState.FastJump:
-						yvel -= fastJumpDecayUp;
-						break;
-					case JumpState.ModerateJump:
-						yvel -= modJumpDecayUp;
-						break;
-					case JumpState.SlowJump:
-						yvel -= slowJumpDecayUp;
-						break;
-				}
-			} else {
-				switch (jump) {
-					case JumpState.FastJump:
-						yvel -= fastJumpDecay;
-						break;
-					case JumpState.ModerateJump:
-						yvel -= modJumpDecay;
-						break;
-					case JumpState.SlowJump:
-						yvel -= slowJumpDecay;
-						break;
-				}
+		if (Input.GetKey(KeyCode.Space)) {
+			switch (jump) {
+				case JumpState.FastJump:
+					yvel -= fastJumpDecayUp;
+					break;
+				case JumpState.ModerateJump:
+					yvel -= modJumpDecayUp;
+					break;
+				case JumpState.SlowJump:
+					yvel -= slowJumpDecayUp;
+					break;
+			}
+		} else {
+			switch (jump) {
+				case JumpState.FastJump:
+					yvel -= fastJumpDecay;
+					break;
+				case JumpState.ModerateJump:
+					yvel -= modJumpDecay;
+					break;
+				case JumpState.SlowJump:
+					yvel -= slowJumpDecay;
+					break;
 			}
 		}
-//		print(yvel);
+		
 		invs -= 1;
 		// Sprite Flip
 		if (xvel > 0) {
@@ -134,27 +135,23 @@ public class Mario : MonoBehaviour {
 		}
 		animator.SetFloat("xvel", Mathf.Abs(xvel));
 		animator.SetBool("skidding", skidding);
+		animator.SetBool("jumping", !canJump);
 		rb2d.MovePosition(new Vector2(transform.position.x, transform.position.y) + new Vector2(xvel, yvel));
 	}
 
 	void OnCollisionStay2D(Collision2D other) {
 		Vector2 normal = other.contacts[0].normal;
-//		print(normal);
-		if (Mathf.Abs(normal.x) > 0.1) {
+		if (Mathf.Abs(normal.x) > 0.1 && other.relativeVelocity.magnitude > 2f) {
 			xvel = 0;
 		}
 		if (normal.y > 0.01 && invs <= 0) {
 			yvel = 0;
-			jump = JumpState.AtRest;
-		} else {
-			print(normal);
-			print("AAAA");
+			canJump = true;
 		}
 	}
 }
 
 enum JumpState {
-	AtRest,
 	SlowJump,
 	ModerateJump,
 	FastJump
