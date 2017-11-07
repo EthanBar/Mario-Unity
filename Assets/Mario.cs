@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Timeline;
 
 public class Mario : MonoBehaviour {
 	
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
-	private AudioSource audio;
+	private AudioSource audioSource;
 
 	public float width, height;
 	private float xvel, yvel;
@@ -51,7 +48,7 @@ public class Mario : MonoBehaviour {
 		grounded = true;
 		animator = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
-		audio = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -70,7 +67,7 @@ public class Mario : MonoBehaviour {
 				yvel = jumpPower;
 			}
 			fastAirStraff = Mathf.Abs(xvel) > airStrafeFast;
-			audio.Play();
+			audioSource.Play();
 		}
 		
 		// Horiztonal input
@@ -210,25 +207,31 @@ public class Mario : MonoBehaviour {
 		Vector2 attemptPos = curPos + move;
 		
 		
-		foreach (RectCollider collider in colliders) {
-			CollisionInfo collision = collider.Collide(new Vector2(width, height), curPos, attemptPos);
+		for (int i = 0; i < colliders.Count; i++) {
+			CollisionInfo collision = colliders[i].Collide(new Vector2(width, height), curPos, attemptPos);
 //			print(collisions[1]);
 			if (collision.hitTop) {
-				transform.position = new Vector2(transform.position.x, collision.position.y + height / 2 + collision.height / 2);
+				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y + height / 2 + collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
 				grounded = true;
 			} else if (collision.hitBottom) {
-				transform.position = new Vector2(transform.position.x, collision.position.y - height / 2 - collision.height / 2);
+				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y - height / 2 - collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
+				if (collision.obj.blockType == BlockType.breakable) {
+					Destroy(collision.obj.gameObject);
+					colliders.Remove(colliders[i]);
+				} else if (collision.obj.blockType == BlockType.coinblock) {
+					collision.obj.gameObject.GetComponent<Animator>().SetBool("used", true);
+				}
 			}
 			if (collision.hitRight) {
-				transform.position = new Vector2(collision.position.x + width / 2 + collision.width / 2, transform.position.y);
+				transform.position = new Vector2(collision.obj.GetPosition().x + width / 2 + collision.obj.GetWidth() / 2, transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			} else if (collision.hitLeft) {
-				transform.position = new Vector2(collision.position.x - width / 2 - collision.width / 2, transform.position.y);
+				transform.position = new Vector2(collision.obj.GetPosition().x - width / 2 - collision.obj.GetWidth() / 2, transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			}

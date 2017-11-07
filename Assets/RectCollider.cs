@@ -1,16 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RectCollider : MonoBehaviour {
 	public float width = 1;
 	public float height = 1;
+	public BlockType blockType = BlockType.solid;
+	public Pickup pickup = Pickup.coin;
 	
-	private CollisionInfo noCollision;
+	private CollisionInfo noCollision; 
 	
 	private void Awake() {
 		Mario.AddCollider(this);
-		noCollision = new CollisionInfo(false, false, false, false, transform.position, width, height);
+		noCollision = new CollisionInfo(false, false, false, false, this);
 	}
 
 	public CollisionInfo Collide(Vector2 dimensions, Vector2 currentPosition, Vector2 newPosition) {
@@ -42,23 +42,51 @@ public class RectCollider : MonoBehaviour {
 				collisions[2] = true;
 			}
 		}
-		return new CollisionInfo(collisions[3], collisions[1], collisions[0], collisions[2],
-			transform.position, width, height);
+		return new CollisionInfo(collisions[3], collisions[1], collisions[0], collisions[2], this);
 	}
+
+	public GameObject GetGameObject() {
+		return gameObject;
+	}
+
+	public float GetWidth() {
+		return width;
+	}
+	
+	public float GetHeight() {
+		return height;
+	}
+
+	public Vector2 GetPosition() {
+		return transform.position;
+	}
+
+	public BlockType GetBlockType() {
+		return blockType;
+	}
+	
 }
 
 public struct CollisionInfo {
-	public CollisionInfo(bool hitBottom, bool hitTop, bool hitRight, bool hitLeft,
-						 Vector2 position, float width, float height) {
+	public CollisionInfo(bool hitBottom, bool hitTop, bool hitRight, bool hitLeft, RectCollider obj) {
 		this.hitBottom = hitBottom;
 		this.hitTop = hitTop;
 		this.hitRight = hitRight;
 		this.hitLeft = hitLeft;
-		this.position = position;
-		this.width = width;
-		this.height = height;
+		this.obj = obj;
 	}
-	public bool hitBottom, hitTop, hitRight, hitLeft;
-	public Vector2 position;
-	public float width, height;
+	public readonly bool hitBottom, hitTop, hitRight, hitLeft;
+	public readonly RectCollider obj;
+}
+
+[System.Serializable]
+public enum BlockType {
+	solid,
+	breakable,
+	coinblock
+}
+
+[System.Serializable]
+public enum Pickup {
+	coin
 }
