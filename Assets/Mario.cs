@@ -223,7 +223,11 @@ public class Mario : MonoBehaviour {
 					Destroy(collision.obj.gameObject);
 					colliders.Remove(colliders[i]);
 				} else if (collision.obj.blockType == BlockType.coinblock) {
-					collision.obj.gameObject.GetComponent<Animator>().SetBool("used", true);
+					Animator animator = collision.obj.gameObject.GetComponent<Animator>();
+					if (!animator.GetBool("used")) {
+						collision.obj.gameObject.GetComponent<AudioSource>().Play();
+					}
+					animator.SetBool("used", true);
 				}
 			}
 			if (collision.hitRight) {

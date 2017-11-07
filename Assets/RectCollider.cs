@@ -83,7 +83,8 @@ public struct CollisionInfo {
 public enum BlockType {
 	solid,
 	breakable,
-	coinblock
+	coinblock,
+	goomba
 }
 
 [System.Serializable]
