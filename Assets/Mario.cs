@@ -9,6 +9,7 @@ public class Mario : MonoBehaviour {
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
 
+	public float width, height;
 	private float xvel, yvel;
 	private JumpState jump;
 	private bool fastAirStraff;
@@ -30,12 +31,12 @@ public class Mario : MonoBehaviour {
 	private const float fastJumpReq = 9472 / conversion;
 	private const float modJumpReq = 4096 / conversion;
 
-	private const float fastJumpDecay = 1792 / conversion;
-	private const float fastJumpDecayUp = 512 / conversion;
+	private const float fastJumpDecay = 2304 / conversion;
+	private const float fastJumpDecayUp = 640 / conversion;
 	private const float modJumpDecay = 1536 / conversion;
-	private const float modJumpDecayUp = 480 / conversion;
-	private const float slowJumpDecay = 2304 / conversion;
-	private const float slowJumpDecayUp = 640 / conversion;
+	private const float modJumpDecayUp = 460 / conversion; // 480
+	private const float slowJumpDecay = 1792 / conversion;
+	private const float slowJumpDecayUp = 490 / conversion; //512
 
 	private const float airStrafeBorder = 6400 / conversion;
 	private const float airStrafeFast = 7424 / conversion; 
@@ -201,24 +202,24 @@ public class Mario : MonoBehaviour {
 		
 		
 		foreach (RectCollider collider in colliders) {
-			CollisionInfo collision = collider.Collide(new Vector2(1, 2), curPos, attemptPos);
+			CollisionInfo collision = collider.Collide(new Vector2(width, height), curPos, attemptPos);
 //			print(collisions[1]);
 			if (collision.hitTop) {
-				transform.position = new Vector2(transform.position.x, collision.position.y + 1 + collision.height / 2);
+				transform.position = new Vector2(transform.position.x, collision.position.y + height / 2 + collision.height / 2);
 				move.y = 0;
 				yvel = 0;
 				grounded = true;
 			} else if (collision.hitBottom) {
-				transform.position = new Vector2(transform.position.x, collision.position.y - 1 - collision.height / 2);
+				transform.position = new Vector2(transform.position.x, collision.position.y - height / 2 - collision.height / 2);
 				move.y = 0;
 				yvel = 0;
 			}
 			if (collision.hitRight) {
-				transform.position = new Vector2(collision.position.x + 0.5f + collision.width / 2, transform.position.y);
+				transform.position = new Vector2(collision.position.x + width / 2 + collision.width / 2, transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			} else if (collision.hitLeft) {
-				transform.position = new Vector2(collision.position.x - 0.5f - collision.width / 2, transform.position.y);
+				transform.position = new Vector2(collision.position.x - width / 2 - collision.width / 2, transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			}
