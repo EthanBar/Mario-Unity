@@ -8,6 +8,7 @@ public class Mario : MonoBehaviour {
 	
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
+	private AudioSource audio;
 
 	public float width, height;
 	private float xvel, yvel;
@@ -18,7 +19,8 @@ public class Mario : MonoBehaviour {
 	private static List<RectCollider> colliders;
 
 	private const float conversion = 65536; // == 0x10000
-	private const float maxX = 10496 / conversion;
+	private const float maxRunX = 10496 / conversion;
+	private const float maxWalkX = 6400 / conversion;
 	private const float walkAcc = 152 / conversion;
 	private const float runAcc = 228 / conversion;
 	
@@ -49,6 +51,7 @@ public class Mario : MonoBehaviour {
 		grounded = true;
 		animator = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		audio = GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -67,6 +70,7 @@ public class Mario : MonoBehaviour {
 				yvel = jumpPower;
 			}
 			fastAirStraff = Mathf.Abs(xvel) > airStrafeFast;
+			audio.Play();
 		}
 		
 		// Horiztonal input
@@ -94,7 +98,9 @@ public class Mario : MonoBehaviour {
 			} else {
 				moving = true;
 				if (xvel >= 0) {
-					xvel += walkAcc;
+					if (Input.GetKey(KeyCode.LeftShift)) {
+						xvel += runAcc;
+					} else xvel += walkAcc;
 				} else if (xvel < 0) {
 					// Skidding
 					xvel += skidPower;
@@ -124,7 +130,9 @@ public class Mario : MonoBehaviour {
 			} else {
 				moving = true;
 				if (xvel <= 0) {
-					xvel -= walkAcc;
+					if (Input.GetKey(KeyCode.LeftShift)) {
+						xvel -= runAcc;
+					} else xvel -= walkAcc;
 				} else if (xvel > 0) {
 					// Skidding
 					xvel -= skidPower;
@@ -145,10 +153,11 @@ public class Mario : MonoBehaviour {
 		}
 		
 		// X velocity cap
-		if (xvel > maxX) {
-			xvel = maxX;
-		} else if (xvel < -maxX) {
-			xvel = -maxX;
+		float maxSpeed = Input.GetKey(KeyCode.LeftShift) ? maxRunX : maxWalkX;
+		if (xvel > maxSpeed) {
+			xvel = maxSpeed;
+		} else if (xvel < -maxSpeed) {
+			xvel = -maxSpeed;
 		}
 		
 		// Y velocity decay

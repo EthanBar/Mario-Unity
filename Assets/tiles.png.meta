@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 855dc7396df3c4e49ac4d21234eac5e1
-timeCreated: 1509996951
+timeCreated: 1510024343
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -32,7 +32,7 @@ TextureImporter:
     21300050: tiles_25
     21300052: tiles_26
     21300054: tiles_27
-    21300056: tiles_28
+    21300056: tile_solid
     21300058: tiles_29
     21300060: tiles_30
     21300062: tiles_31
@@ -252,9 +252,9 @@ TextureImporter:
     21300490: tiles_245
     21300492: tiles_246
     21300494: tiles_247
-    21300496: tiles_248
-    21300498: tiles_249
-    21300500: tiles_250
+    21300496: background_hill_up
+    21300498: background_hill_top
+    21300500: background_hill_down
     21300502: tiles_251
     21300504: tiles_252
     21300506: tiles_253
@@ -271,7 +271,7 @@ TextureImporter:
     21300528: tiles_264
     21300530: tiles_265
     21300532: tiles_266
-    21300534: tiles_267
+    21300534: object_pipe
     21300536: tiles_268
     21300538: tiles_269
     21300540: tiles_270
@@ -280,10 +280,10 @@ TextureImporter:
     21300546: tiles_273
     21300548: tiles_274
     21300550: tiles_275
-    21300552: tiles_276
-    21300554: tiles_277
-    21300556: tiles_278
-    21300558: tiles_279
+    21300552: background_hill_middle
+    21300554: background_bush_left
+    21300556: background_bush_middle
+    21300558: background_bush_right
     21300560: tiles_280
     21300562: tiles_281
     21300564: tiles_282
@@ -538,9 +538,9 @@ TextureImporter:
     21301062: tiles_531
     21301064: tiles_532
     21301066: tiles_533
-    21301068: tiles_534
-    21301070: tiles_535
-    21301072: tiles_536
+    21301068: background_cloud_top_left
+    21301070: background_cloud_top_middle
+    21301072: background_cloud_top_right
     21301074: tiles_537
     21301076: tiles_538
     21301078: tiles_539
@@ -549,9 +549,9 @@ TextureImporter:
     21301084: tiles_542
     21301086: tiles_543
     21301088: tiles_544
-    21301090: tiles_545
-    21301092: tiles_546
-    21301094: tiles_547
+    21301090: background_cloud_bottom_left
+    21301092: background_cloud_bottom_middle
+    21301094: background_cloud_bottom_right
     21301096: tiles_548
     21301098: tiles_549
     21301100: tiles_550
@@ -614,6 +614,8 @@ TextureImporter:
     21301214: tiles_607
     21301216: tiles_608
     21301218: tiles_609
+    21301220: object_pipe_top
+    21301222: object_pipe_middle
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -1080,7 +1082,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_28
+      name: tile_solid
       rect:
         serializedVersion: 2
         x: 0
@@ -4048,34 +4050,6 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_240
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 304
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: tiles_241
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 304
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
       name: tiles_242
       rect:
         serializedVersion: 2
@@ -4160,7 +4134,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_248
+      name: background_hill_up
       rect:
         serializedVersion: 2
         x: 128
@@ -4174,7 +4148,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_249
+      name: background_hill_top
       rect:
         serializedVersion: 2
         x: 144
@@ -4188,7 +4162,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_250
+      name: background_hill_down
       rect:
         serializedVersion: 2
         x: 160
@@ -4412,26 +4386,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_266
+      name: object_pipe_top
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: tiles_267
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 288
-        width: 16
+        y: 304
+        width: 32
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -4552,7 +4512,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_276
+      name: background_hill_middle
       rect:
         serializedVersion: 2
         x: 160
@@ -4566,7 +4526,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_277
+      name: background_bush_left
       rect:
         serializedVersion: 2
         x: 176
@@ -4580,7 +4540,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_278
+      name: background_bush_middle
       rect:
         serializedVersion: 2
         x: 192
@@ -4594,7 +4554,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_279
+      name: background_bush_right
       rect:
         serializedVersion: 2
         x: 208
@@ -8164,7 +8124,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_534
+      name: background_cloud_top_left
       rect:
         serializedVersion: 2
         x: 0
@@ -8178,7 +8138,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_535
+      name: background_cloud_top_middle
       rect:
         serializedVersion: 2
         x: 16
@@ -8192,7 +8152,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_536
+      name: background_cloud_top_right
       rect:
         serializedVersion: 2
         x: 32
@@ -8318,7 +8278,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_545
+      name: background_cloud_bottom_left
       rect:
         serializedVersion: 2
         x: 0
@@ -8332,7 +8292,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_546
+      name: background_cloud_bottom_middle
       rect:
         serializedVersion: 2
         x: 16
@@ -8346,7 +8306,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_547
+      name: background_cloud_bottom_right
       rect:
         serializedVersion: 2
         x: 32
@@ -9223,6 +9183,20 @@ TextureImporter:
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: object_pipe_middle
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
