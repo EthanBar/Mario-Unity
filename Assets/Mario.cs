@@ -14,7 +14,7 @@ public class Mario : MonoBehaviour {
 	private bool fastAirStraff;
 	private bool grounded;
 
-	private static List<Vector2> colliders;
+	private static List<RectCollider> colliders;
 
 	private const float conversion = 65536; // == 0x10000
 	private const float maxX = 10496 / conversion;
@@ -50,13 +50,11 @@ public class Mario : MonoBehaviour {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
-	private int invs = 0; // Buffer frames
-	
 	// Update is called once per frame
 	void FixedUpdate() {
+		// Vertical input
 		if (Input.GetKeyDown(KeyCode.Space) && grounded) {
 			grounded = false;
-			invs = 3;
 			if (Mathf.Abs(xvel) > fastJumpReq) {
 				jump = JumpState.FastJump;
 				yvel = fastJumpPower;
@@ -69,7 +67,8 @@ public class Mario : MonoBehaviour {
 			}
 			fastAirStraff = Mathf.Abs(xvel) > airStrafeFast;
 		}
-
+		
+		// Horiztonal input
 		bool moving = false;
 		bool skidding = false;
 		if (Input.GetKey(KeyCode.D)) {
@@ -133,7 +132,7 @@ public class Mario : MonoBehaviour {
 			}
 		}
 		
-		// X decay
+		// X velocity decay
 		if (!moving && grounded) {
 			if (xvel > 0) {
 				xvel -= releaseDeAcc;
@@ -144,14 +143,14 @@ public class Mario : MonoBehaviour {
 			}
 		}
 		
-		// X cap
+		// X velocity cap
 		if (xvel > maxX) {
 			xvel = maxX;
 		} else if (xvel < -maxX) {
 			xvel = -maxX;
 		}
 		
-		// Y decay
+		// Y velocity decay
 		if (Input.GetKey(KeyCode.Space)) {
 			switch (jump) {
 				case JumpState.FastJump:
@@ -178,71 +177,60 @@ public class Mario : MonoBehaviour {
 			}
 		}
 		
-		invs -= 1;
+		
 		// Sprite Flip
 		if (xvel > 0) {
-			spriteRenderer.flipX = false;
+			spriteRenderer.flipX = skidding;
 		} else if (xvel < 0) {
-			spriteRenderer.flipX = true;
+			spriteRenderer.flipX = !skidding;
 		}
+		
+		// Move according to velocities
+		Move(new Vector2(xvel, yvel));
+		
+		// Set animator variables
 		animator.SetFloat("xvel", Mathf.Abs(xvel));
 		animator.SetBool("skidding", skidding);
 		animator.SetBool("jumping", !grounded);
-		Move(new Vector2(xvel, yvel));
 	}
 
+	// Collision detection
 	private void Move(Vector2 move) {
 		Vector2 curPos = transform.position;
 		Vector2 attemptPos = curPos + move;
 		
-		foreach (Vector2 collider in colliders) {
-			bool withinX = curPos.x < collider.x + 1 && curPos.x > collider.x - 1;
-			if (withinX && curPos.y >= collider.y + 1.5f) {
-				if (attemptPos.y <= collider.y + 1.5f) {
-					move.y = 0;
-					yvel = 0;
-					grounded = true;
-					print("ah");
-				}
-			} else if (withinX && curPos.y <= collider.y - 1.5f) {
-				if (attemptPos.y >= collider.y - 1.5f) {
-					move.y = 0;
-					yvel = 0;
-				}
+		
+		foreach (RectCollider collider in colliders) {
+			CollisionInfo collision = collider.Collide(new Vector2(1, 2), curPos, attemptPos);
+//			print(collisions[1]);
+			if (collision.hitTop) {
+				transform.position = new Vector2(transform.position.x, collision.position.y + 1 + collision.height / 2);
+				move.y = 0;
+				yvel = 0;
+				grounded = true;
+			} else if (collision.hitBottom) {
+				transform.position = new Vector2(transform.position.x, collision.position.y - 1 - collision.height / 2);
+				move.y = 0;
+				yvel = 0;
 			}
-			bool withinY = curPos.y < collider.y + 1.5f && curPos.y > collider.y - 1.5f;
-			if (withinY && curPos.x >= collider.x + 1) {
-				if (attemptPos.x <= collider.x + 1) {
-					move.x = 0;
-					xvel = 0;
-				}
-			} else if (withinY && curPos.x <= collider.x - 1) {
-				if (attemptPos.x >= collider.x - 1) {
-					move.x = 0;
-					xvel = 0;
-				}
+			if (collision.hitRight) {
+				transform.position = new Vector2(collision.position.x + 0.5f + collision.width / 2, transform.position.y);
+				move.x = 0;
+				xvel = 0;
+			} else if (collision.hitLeft) {
+				transform.position = new Vector2(collision.position.x - 0.5f - collision.width / 2, transform.position.y);
+				move.x = 0;
+				xvel = 0;
 			}
 		}
 
 		transform.position += new Vector3(move.x, move.y, 0);
 	}
 
-	public static void AddCollider(Vector2 middle) {
-		if (colliders == null) colliders = new List<Vector2>();
-		colliders.Add(middle);
+	public static void AddCollider(RectCollider collider) {
+		if (colliders == null) colliders = new List<RectCollider>();
+		colliders.Add(collider);
 	}
-	
-
-//	void OnCollisionStay2D(Collision2D other) {
-//		Vector2 normal = other.contacts[0].normal;
-//		if (Mathf.Abs(normal.x) > 0.1 && other.relativeVelocity.x > 2f) {
-//			xvel = 0;
-//		}
-//		if (normal.y > 0.01 && invs <= 0) {
-//			yvel = 0;
-//			grounded = true;
-//		}
-//	}
 }
 
 enum JumpState {
