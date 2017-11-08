@@ -6,6 +6,7 @@ public class Mario : MonoBehaviour {
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
 	private AudioSource audioSource;
+	private Score score;
 
 	public float width, height;
 	private float xvel, yvel;
@@ -14,6 +15,7 @@ public class Mario : MonoBehaviour {
 	private bool grounded;
 
 	private static List<RectCollider> colliders;
+	public GameObject breakTile;
 
 	private const float conversion = 65536; // == 0x10000
 	private const float maxRunX = 10496 / conversion;
@@ -49,6 +51,7 @@ public class Mario : MonoBehaviour {
 		animator = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		audioSource = GetComponent<AudioSource>();
+		score = GameObject.Find("Score").GetComponent<Score>();
 	}
 
 	// Update is called once per frame
@@ -222,10 +225,12 @@ public class Mario : MonoBehaviour {
 				if (collision.obj.blockType == BlockType.breakable) {
 					Destroy(collision.obj.gameObject);
 					colliders.Remove(colliders[i]);
+					BreakTile(collision.obj.transform.position);
 				} else if (collision.obj.blockType == BlockType.coinblock) {
 					Animator animator = collision.obj.gameObject.GetComponent<Animator>();
 					if (!animator.GetBool("used")) {
 						collision.obj.gameObject.GetComponent<AudioSource>().Play();
+						score.AddScore(200);
 					}
 					animator.SetBool("used", true);
 				}
@@ -242,6 +247,19 @@ public class Mario : MonoBehaviour {
 		}
 
 		transform.position += new Vector3(move.x, move.y, 0);
+	}
+
+	void BreakTile(Vector2 position) {
+		float gravity = -0.01f;
+		float hor = 0.01f;
+		Instantiate(breakTile, position, Quaternion.identity).GetComponent<TileBreak>().SetData(new Vector2(0, gravity),
+			new Vector2(-hor, 0.3f));
+		Instantiate(breakTile, position, Quaternion.identity).GetComponent<TileBreak>().SetData(new Vector2(0, gravity),
+			new Vector2(-hor, 0.2f));
+		Instantiate(breakTile, position, Quaternion.identity).GetComponent<TileBreak>().SetData(new Vector2(0, gravity),
+			new Vector2(hor, 0.3f));
+		Instantiate(breakTile, position, Quaternion.identity).GetComponent<TileBreak>().SetData(new Vector2(0, gravity),
+			new Vector2(hor, 0.2f));
 	}
 
 	public static void AddCollider(RectCollider collider) {
