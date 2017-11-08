@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 855dc7396df3c4e49ac4d21234eac5e1
-timeCreated: 1510065918
+timeCreated: 1510119484
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -279,7 +279,7 @@ TextureImporter:
     21300544: tiles_272
     21300546: tiles_273
     21300548: tiles_274
-    21300550: tiles_275
+    21300550: background_hill_middle_empty
     21300552: background_hill_middle
     21300554: background_bush_left
     21300556: background_bush_middle
@@ -4498,7 +4498,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_275
+      name: background_hill_middle_empty
       rect:
         serializedVersion: 2
         x: 144

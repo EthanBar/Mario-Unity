@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Gomba : MonoBehaviour {
-	private bool right;
+	private float right;
 	public Vector2 dimensions;
-
+	private bool active;
+	
 	private float downAcc;
+	
+	void Start () {
+	    right = -1;
+	}
 	
 	// Update is called once per frame
 	void Update () {
-		float rightmove = right ? 1 : -1;
-		Vector2 move = new Vector2(rightmove * 0.045f, downAcc);
-		downAcc -= 0.0234f;
+		active = Mathf.Abs(transform.position.x - Mario.mario.transform.position.x) <= 9;
+		if (!active) return;
+		if (transform.position.x - Mario.mario.transform.position.x >= 9) Destroy(gameObject);
+		float rightmove = 0.035f * right;
+		Vector2 move = new Vector2(rightmove, downAcc);
+		downAcc -= 0.0184f;
 		CollisionInfo[] collisions = Actor.Collide(transform.position,
 			new Vector2(transform.position.x, transform.position.y) + move, dimensions);
 		foreach (CollisionInfo collision in collisions) {
@@ -27,12 +35,12 @@ public class Gomba : MonoBehaviour {
 			}
 			if (collision.hitRight) {
 				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.GetWidth() / 2, transform.position.y);
-				move.x = 0;
-				right = false;
+				move.x *= -1;
+				right = 1;
 			} else if (collision.hitLeft) {
 				transform.position = new Vector2(collision.obj.GetPosition().x - dimensions.x / 2 - collision.obj.GetWidth() / 2, transform.position.y);
-				move.x = 0;
-				right = true;
+				move.x *= -1;
+				right = -1;
 			}
 		}
 		transform.position = new Vector2(transform.position.x, transform.position.y) + move;

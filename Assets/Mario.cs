@@ -6,6 +6,7 @@ public class Mario : MonoBehaviour {
 	private Animator animator;
 	private AudioSource audioSource;
 	private Score score;
+	public static Mario mario;
 
 	public Vector2 dimensions;
 	private float xvel, yvel;
@@ -43,6 +44,7 @@ public class Mario : MonoBehaviour {
 	private const float goombaJump = 18432 / conversion;
 	// Use this for initialization
 	void Start () {
+		mario = this;
 		xvel = 0;
 		yvel = 0;
 		jump = JumpState.SlowJump;
