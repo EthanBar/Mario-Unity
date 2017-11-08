@@ -1,16 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Actor : MonoBehaviour {
+public static class Actor {
+	
+	private static List<RectCollider> colliders;
 
-	// Use this for initialization
-	void Start () {
-		
+	public static CollisionInfo[] Collide(Vector2 curPos, Vector2 attemptPos, Vector2 dimensions) {
+		List<CollisionInfo> collisions = new List<CollisionInfo>();
+		for (int i = 0; i < colliders.Count; i++) {
+			CollisionInfo collision = colliders[i].Collide(dimensions, curPos, attemptPos);
+			if (collision.hitBottom || collision.hitTop || collision.hitRight || collision.hitLeft) {
+				collisions.Add(collision);
+			}
+		}
+		return collisions.ToArray();
+	}
+
+	public static void RegisterCollider(RectCollider collider) {
+		if (colliders == null) colliders = new List<RectCollider>();
+		colliders.Add(collider);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	public static void DeleteCollider(RectCollider collider) {
+		colliders.Remove(collider);
 	}
 }

@@ -9,7 +9,7 @@ public class RectCollider : MonoBehaviour {
 	private CollisionInfo noCollision; 
 	
 	private void Awake() {
-		Mario.AddCollider(this);
+		Actor.RegisterCollider(this);
 		noCollision = new CollisionInfo(false, false, false, false, this);
 	}
 
@@ -64,7 +64,10 @@ public class RectCollider : MonoBehaviour {
 	public BlockType GetBlockType() {
 		return blockType;
 	}
-	
+
+	private void OnDestroy() {
+		Actor.DeleteCollider(this);
+	}
 }
 
 public struct CollisionInfo {

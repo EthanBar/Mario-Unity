@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Mario : MonoBehaviour {
 	
@@ -8,13 +7,12 @@ public class Mario : MonoBehaviour {
 	private AudioSource audioSource;
 	private Score score;
 
-	public float width, height;
+	public Vector2 dimensions;
 	private float xvel, yvel;
 	private JumpState jump;
 	private bool fastAirStraff;
 	private bool grounded;
 
-	private static List<RectCollider> colliders;
 	public GameObject breakTile;
 
 	private const float conversion = 65536; // == 0x10000
@@ -42,6 +40,7 @@ public class Mario : MonoBehaviour {
 	private const float airStrafeBorder = 6400 / conversion;
 	private const float airStrafeFast = 7424 / conversion; 
 	
+	private const float goombaJump = 18432 / conversion;
 	// Use this for initialization
 	void Start () {
 		xvel = 0;
@@ -208,50 +207,56 @@ public class Mario : MonoBehaviour {
 	private void Move(Vector2 move) {
 		Vector2 curPos = transform.position;
 		Vector2 attemptPos = curPos + move;
+
+		CollisionInfo[] collisions = Actor.Collide(curPos, attemptPos, dimensions);
 		
-		
-		for (int i = 0; i < colliders.Count; i++) {
-			CollisionInfo collision = colliders[i].Collide(new Vector2(width, height), curPos, attemptPos);
-//			print(collisions[1]);
+		foreach (CollisionInfo collision in collisions) {
 			if (collision.hitTop) {
-				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y + height / 2 + collision.obj.GetHeight() / 2);
+				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y + dimensions.y / 2 + collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
 				grounded = true;
+				if (collision.obj.blockType == BlockType.goomba) {
+					AudioManager.PlaySound(AudioManager.main.goomba);
+					Destroy(collision.obj.gameObject);
+					yvel = goombaJump;
+					move.y = goombaJump;
+					grounded = false;
+					score.AddScore(100);
+				}
 			} else if (collision.hitBottom) {
-				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y - height / 2 - collision.obj.GetHeight() / 2);
+				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y - dimensions.y / 2 - collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
 				if (collision.obj.blockType == BlockType.breakable) {
-					Destroy(collision.obj.gameObject);
-					colliders.Remove(colliders[i]);
+					AudioManager.PlaySound(AudioManager.main.breakBlock);
 					BreakTile(collision.obj.transform.position);
+					Destroy(collision.obj.gameObject);
 				} else if (collision.obj.blockType == BlockType.coinblock) {
 					Animator animator = collision.obj.gameObject.GetComponent<Animator>();
 					if (!animator.GetBool("used")) {
-						collision.obj.gameObject.GetComponent<AudioSource>().Play();
+						AudioManager.PlaySound(AudioManager.main.coin);
 						score.AddScore(200);
 					}
 					animator.SetBool("used", true);
 				}
 			}
 			if (collision.hitRight) {
-				transform.position = new Vector2(collision.obj.GetPosition().x + width / 2 + collision.obj.GetWidth() / 2, transform.position.y);
+				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.GetWidth() / 2, transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			} else if (collision.hitLeft) {
-				transform.position = new Vector2(collision.obj.GetPosition().x - width / 2 - collision.obj.GetWidth() / 2, transform.position.y);
+				transform.position = new Vector2(collision.obj.GetPosition().x - dimensions.x / 2 - collision.obj.GetWidth() / 2, transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			}
 		}
-
 		transform.position += new Vector3(move.x, move.y, 0);
 	}
 
 	void BreakTile(Vector2 position) {
-		float gravity = -0.01f;
-		float hor = 0.01f;
+		const float gravity = -0.01f;
+		const float hor = 0.01f;
 		Instantiate(breakTile, position, Quaternion.identity).GetComponent<TileBreak>().SetData(new Vector2(0, gravity),
 			new Vector2(-hor, 0.3f));
 		Instantiate(breakTile, position, Quaternion.identity).GetComponent<TileBreak>().SetData(new Vector2(0, gravity),
@@ -261,14 +266,9 @@ public class Mario : MonoBehaviour {
 		Instantiate(breakTile, position, Quaternion.identity).GetComponent<TileBreak>().SetData(new Vector2(0, gravity),
 			new Vector2(hor, 0.2f));
 	}
-
-	public static void AddCollider(RectCollider collider) {
-		if (colliders == null) colliders = new List<RectCollider>();
-		colliders.Add(collider);
-	}
 }
 
-enum JumpState {
+internal enum JumpState {
 	SlowJump,
 	ModerateJump,
 	FastJump

@@ -20,4 +20,5 @@ public class TileBreak : MonoBehaviour {
 		this.acceleration = acceleration;
 		Destroy(gameObject, 2.0f);
 	}
+	
 }
