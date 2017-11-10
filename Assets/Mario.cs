@@ -16,6 +16,7 @@ public class Mario : MonoBehaviour {
 	private bool fastAirStraff;
 	private bool grounded, jumping;
 
+	public GameObject flag;
 	public GameObject breakTile;
 	public GameObject gameover;
 
@@ -297,39 +298,8 @@ public class Mario : MonoBehaviour {
 	private float topPole;
 
 	void FlagPole() {
-		flagFrame++;
-		if (flagFrame == 1) {
-			GameObject.Find("Time").GetComponent<Time>().stopClock = true;
-			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
-			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
-			animator.SetLayerWeight(animator.GetLayerIndex("Pole"), 1);
-			animator.SetBool("isMega", poweredUp);
-			onFlag = true;
-			topPole = transform.position.y;
-			AudioManager.PlaySound(AudioManager.main.flag, 1);
-			Camera.main.GetComponent<AudioSource>().Stop();
-		} else if (flagFrame < 100) {
-			transform.position = new Vector2(195, Mathf.Lerp(topPole, -3f, flagFrame / 100f));
-		} else if (flagFrame == 100) {
-			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
-			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
-			animator.SetLayerWeight(animator.GetLayerIndex("Pole"), 0);
-			animator.SetFloat("xvel", 1);
-			animator.SetBool("skidding", false);
-			animator.SetBool("jumping", false);
-			if (poweredUp) {
-				animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
-			} else {
-				animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
-			}
-			animator.SetBool("isMega", poweredUp);
-			AudioManager.PlaySound(AudioManager.main.win, 1);
-		} else if (flagFrame < 200) {
-			transform.position = new Vector2(Mathf.Lerp(196, 200, (flagFrame - 100) / 100f), -4);
-		} else if (flagFrame == 200) {
-			spriteRenderer.enabled = false;
-			GameObject.Find("Time").GetComponent<Time>().finishlevel = true;
-		}
+		onFlag = true;
+		flag.GetComponent<EndLevel>().HitPole(animator, this, spriteRenderer, poweredUp);
 	}
 
 	void Hurt() {
@@ -348,6 +318,7 @@ public class Mario : MonoBehaviour {
 			yield return new WaitForSecondsRealtime(1f);
 			gameover.SetActive(true);
 			yield return new WaitForSecondsRealtime(1f);
+			UnityEngine.Time.timeScale = 1;
 			SceneManager.LoadScene("1-1");
 		} else {
 			UnityEngine.Time.timeScale = 0;
@@ -380,10 +351,14 @@ public class Mario : MonoBehaviour {
 	}
 
 	void HitTopBlock(CollisionInfo collision) {
-		if (collision.obj.blockType == BlockType.breakable && poweredUp) {
-			AudioManager.PlaySound(AudioManager.main.breakBlock, 1);
-			BreakTile(collision.obj.transform.position);
-			Destroy(collision.obj.gameObject);
+		if (collision.obj.blockType == BlockType.breakable) {
+			if (poweredUp) {
+				AudioManager.PlaySound(AudioManager.main.breakBlock, 1);
+				BreakTile(collision.obj.transform.position);
+				Destroy(collision.obj.gameObject);
+			} else {
+				collision.obj.StartBounce();
+			}
 		} else if (collision.obj.blockType == BlockType.coinblock) {
 			Animator animator = collision.obj.gameObject.GetComponent<Animator>();
 			if (!animator.GetBool("used")) {
@@ -392,6 +367,8 @@ public class Mario : MonoBehaviour {
 				score.AddScore(200);
 			}
 			animator.SetBool("used", true);
+		} else {
+			collision.obj.StartBounce();
 		}
 	}
 

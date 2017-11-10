@@ -10253,7 +10253,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 366019855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -4, z: 0}
+  m_LocalPosition: {x: 3, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -10271,6 +10271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dimensions: {x: 1, y: 2}
+  flag: {fileID: 977114614}
   breakTile: {fileID: 1704046867122194, guid: 68dc840ab62f7450896eb3dd3cf04a68, type: 2}
   gameover: {fileID: 2137641150}
 --- !u!82 &366019860
@@ -10556,7 +10557,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1097461777675934, guid: bc9dc06dfe63449978fddfcada637d88, type: 2}
       propertyPath: m_Name
-      value: pole (10)
+      value: Pole Flag
       objectReference: {fileID: 0}
     - target: {fileID: 212702249222975738, guid: bc9dc06dfe63449978fddfcada637d88,
         type: 2}
@@ -26909,6 +26910,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &977114614 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1097461777675934, guid: bc9dc06dfe63449978fddfcada637d88,
+    type: 2}
+  m_PrefabInternal: {fileID: 374563827}
+--- !u!114 &977114615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 977114614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6101960f84ebe452b86f92346e126a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &979822207
 GameObject:
   m_ObjectHideFlags: 0
