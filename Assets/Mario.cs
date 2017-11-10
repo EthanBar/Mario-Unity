@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Mario : MonoBehaviour {
 	
@@ -6,13 +7,14 @@ public class Mario : MonoBehaviour {
 	private Animator animator;
 	private AudioSource audioSource;
 	private Score score;
+	private Coins coins;
 	public static Mario mario;
 
 	public Vector2 dimensions;
 	private float xvel, yvel;
 	private JumpState jump;
 	private bool fastAirStraff;
-	private bool grounded;
+	private bool grounded, jumping;
 
 	public GameObject breakTile;
 
@@ -44,22 +46,37 @@ public class Mario : MonoBehaviour {
 	private const float goombaJump = 18432 / conversion;
 	// Use this for initialization
 	void Start () {
+		animator = GetComponent<Animator>();
 		mario = this;
 		xvel = 0;
 		yvel = 0;
 		jump = JumpState.SlowJump;
+		jumping = false;
 		grounded = true;
-		animator = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		audioSource = GetComponent<AudioSource>();
 		score = GameObject.Find("Score").GetComponent<Score>();
+		coins = GameObject.Find("Coins").GetComponent<Coins>();
 	}
+
+	private bool keySpace, keyD, keyA, keyShift, keySpaceDown; 
+
+	void Update() {
+		keySpaceDown = Input.GetKeyDown(KeyCode.Space);
+		keySpace = Input.GetKey(KeyCode.Space);
+		keyD = Input.GetKey(KeyCode.D);
+		keyA = Input.GetKey(KeyCode.A);
+		keyShift = Input.GetKey(KeyCode.LeftShift);
+	}
+
+	protected bool lastupdate;
 
 	// Update is called once per frame
 	void FixedUpdate() {
+//		if (Input.GetKeyDown(KeyCode.Space)) print(grounded);
 		// Vertical input
-		if (Input.GetKeyDown(KeyCode.Space) && grounded) {
-			grounded = false;
+		if (keySpaceDown	 && grounded) {
+			jumping = true;
 			if (Mathf.Abs(xvel) > fastJumpReq) {
 				jump = JumpState.FastJump;
 				yvel = fastJumpPower;
@@ -77,7 +94,7 @@ public class Mario : MonoBehaviour {
 		// Horiztonal input
 		bool moving = false;
 		bool skidding = false;
-		if (Input.GetKey(KeyCode.D)) {
+		if (keyD) {
 			if (!grounded) {
 				if (xvel >= 0) {
 					if (xvel >= airStrafeBorder) {
@@ -99,7 +116,7 @@ public class Mario : MonoBehaviour {
 			} else {
 				moving = true;
 				if (xvel >= 0) {
-					if (Input.GetKey(KeyCode.LeftShift)) {
+					if (keyShift) {
 						xvel += runAcc;
 					} else xvel += walkAcc;
 				} else if (xvel < 0) {
@@ -109,7 +126,7 @@ public class Mario : MonoBehaviour {
 				}
 			}
 		}
-		if (Input.GetKey(KeyCode.A)) {
+		if (keyA) {
 			if (!grounded) {
 				if (xvel <= 0) {
 					if (-xvel >= airStrafeBorder) {
@@ -131,7 +148,7 @@ public class Mario : MonoBehaviour {
 			} else {
 				moving = true;
 				if (xvel <= 0) {
-					if (Input.GetKey(KeyCode.LeftShift)) {
+					if (keyShift) {
 						xvel -= runAcc;
 					} else xvel -= walkAcc;
 				} else if (xvel > 0) {
@@ -154,7 +171,7 @@ public class Mario : MonoBehaviour {
 		}
 		
 		// X velocity cap
-		float maxSpeed = Input.GetKey(KeyCode.LeftShift) ? maxRunX : maxWalkX;
+		float maxSpeed = keyShift ? maxRunX : maxWalkX;
 		if (xvel > maxSpeed) {
 			xvel = maxSpeed;
 		} else if (xvel < -maxSpeed) {
@@ -162,7 +179,7 @@ public class Mario : MonoBehaviour {
 		}
 		
 		// Y velocity decay
-		if (Input.GetKey(KeyCode.Space)) {
+		if (keySpace) {
 			switch (jump) {
 				case JumpState.FastJump:
 					yvel -= fastJumpDecayUp;
@@ -195,14 +212,15 @@ public class Mario : MonoBehaviour {
 		} else if (xvel < 0) {
 			spriteRenderer.flipX = !skidding;
 		}
-		
+		grounded = false;
 		// Move according to velocities
 		Move(new Vector2(xvel, yvel));
+		if (jumping) jumping = !grounded;
 		
 		// Set animator variables
 		animator.SetFloat("xvel", Mathf.Abs(xvel));
 		animator.SetBool("skidding", skidding);
-		animator.SetBool("jumping", !grounded);
+		animator.SetBool("jumping", jumping);
 	}
 
 	// Collision detection
@@ -211,10 +229,20 @@ public class Mario : MonoBehaviour {
 		Vector2 attemptPos = curPos + move;
 
 		CollisionInfo[] collisions = Actor.Collide(curPos, attemptPos, dimensions);
+		if (collisions.Length > 0) move = HandleCollisions(move, collisions);
 		
+		transform.position += new Vector3(move.x, move.y, 0);
+	}
+
+	Vector2 HandleCollisions(Vector2 move, CollisionInfo[] collisions) {
+		bool hitTop = false;
+		CollisionInfo closestTopBlock = collisions[0];
+		grounded = false;
+
 		foreach (CollisionInfo collision in collisions) {
 			if (collision.hitTop) {
-				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y + dimensions.y / 2 + collision.obj.GetHeight() / 2);
+//				transform.position = new Vector2(transform.position.x,
+//					collision.obj.GetPosition().y + dimensions.y / 2 + collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
 				grounded = true;
@@ -227,33 +255,77 @@ public class Mario : MonoBehaviour {
 					score.AddScore(100);
 				}
 			} else if (collision.hitBottom) {
-				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y - dimensions.y / 2 - collision.obj.GetHeight() / 2);
+				if (collision.obj.blockType == BlockType.goomba) Hurt();
+				if (!hitTop) {
+					closestTopBlock = collision;
+					hitTop = true;
+				} else {
+					if (Mathf.Abs(transform.position.x - collision.obj.GetPosition().x) <
+					    Mathf.Abs(transform.position.x - closestTopBlock.obj.GetPosition().x)) {
+						closestTopBlock = collision;
+					}
+				}
+//				transform.position = new Vector2(transform.position.x,
+//					collision.obj.GetPosition().y - dimensions.y / 2 - collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
-				if (collision.obj.blockType == BlockType.breakable) {
-					AudioManager.PlaySound(AudioManager.main.breakBlock);
-					BreakTile(collision.obj.transform.position);
-					Destroy(collision.obj.gameObject);
-				} else if (collision.obj.blockType == BlockType.coinblock) {
-					Animator animator = collision.obj.gameObject.GetComponent<Animator>();
-					if (!animator.GetBool("used")) {
-						AudioManager.PlaySound(AudioManager.main.coin);
-						score.AddScore(200);
-					}
-					animator.SetBool("used", true);
-				}
 			}
 			if (collision.hitRight) {
-				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.GetWidth() / 2, transform.position.y);
+				if (collision.obj.blockType == BlockType.goomba) Hurt();
+//				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.GetWidth() / 2,
+//					transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			} else if (collision.hitLeft) {
-				transform.position = new Vector2(collision.obj.GetPosition().x - dimensions.x / 2 - collision.obj.GetWidth() / 2, transform.position.y);
+				if (collision.obj.blockType == BlockType.goomba) Hurt();
+//				transform.position = new Vector2(collision.obj.GetPosition().x - dimensions.x / 2 - collision.obj.GetWidth() / 2,
+//					transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			}
 		}
-		transform.position += new Vector3(move.x, move.y, 0);
+		if (hitTop) HitTopBlock(closestTopBlock);
+		return move;
+	}
+
+	void Hurt() {
+		dimensions = new Vector2(1, 1);
+		UnityEngine.Time.fixedDeltaTime = 0;
+		StartCoroutine(HurtAnimation(0.2f));
+	}
+	
+	private IEnumerator HurtAnimation(float waitTime) {
+		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+		yield return new WaitForSecondsRealtime(waitTime);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
+		yield return new WaitForSecondsRealtime(waitTime);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+		yield return new WaitForSecondsRealtime(waitTime);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
+		yield return new WaitForSecondsRealtime(waitTime);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
+		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+		UnityEngine.Time.fixedDeltaTime = 1f / 60;
+	}
+
+	void HitTopBlock(CollisionInfo collision) {
+		if (collision.obj.blockType == BlockType.breakable) {
+			AudioManager.PlaySound(AudioManager.main.breakBlock);
+			BreakTile(collision.obj.transform.position);
+			Destroy(collision.obj.gameObject);
+		} else if (collision.obj.blockType == BlockType.coinblock) {
+			Animator animator = collision.obj.gameObject.GetComponent<Animator>();
+			if (!animator.GetBool("used")) {
+				AudioManager.PlaySound(AudioManager.main.coin);
+				coins.AddCoins(1);
+				score.AddScore(200);
+			}
+			animator.SetBool("used", true);
+		}
 	}
 
 	void BreakTile(Vector2 position) {

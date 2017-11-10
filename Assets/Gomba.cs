@@ -14,7 +14,7 @@ public class Gomba : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		active = Mathf.Abs(transform.position.x - Mario.mario.transform.position.x) <= 9;
 		if (!active) return;
 		if (transform.position.x - Mario.mario.transform.position.x >= 9) Destroy(gameObject);
