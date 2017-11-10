@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Mario : MonoBehaviour {
 	
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
-	private AudioSource audioSource;
 	private Score score;
 	private Coins coins;
 	public static Mario mario;
@@ -17,6 +17,7 @@ public class Mario : MonoBehaviour {
 	private bool grounded, jumping;
 
 	public GameObject breakTile;
+	public GameObject gameover;
 
 	private const float conversion = 65536; // == 0x10000
 	private const float maxRunX = 10496 / conversion;
@@ -57,7 +58,6 @@ public class Mario : MonoBehaviour {
 		jumping = false;
 		grounded = true;
 		spriteRenderer = GetComponent<SpriteRenderer>();
-		audioSource = GetComponent<AudioSource>();
 		score = GameObject.Find("Score").GetComponent<Score>();
 		coins = GameObject.Find("Coins").GetComponent<Coins>();
 	}
@@ -71,27 +71,31 @@ public class Mario : MonoBehaviour {
 		keyA = Input.GetKey(KeyCode.A);
 		keyShift = Input.GetKey(KeyCode.LeftShift);
 	}
-
-	protected bool lastupdate;
-
+	
 	// Update is called once per frame
 	void FixedUpdate() {
+		if (onFlag) {
+			FlagPole();
+			return;
+		}
 //		if (Input.GetKeyDown(KeyCode.Space)) print(grounded);
 		// Vertical input
 		if (keySpaceDown	 && grounded) {
 			jumping = true;
 			if (Mathf.Abs(xvel) > fastJumpReq) {
+				AudioManager.PlaySound(AudioManager.main.megaJump, 1);
 				jump = JumpState.FastJump;
 				yvel = fastJumpPower;
 			} else if (Mathf.Abs(xvel) > modJumpReq) {
+				AudioManager.PlaySound(AudioManager.main.jump, 1);
 				jump = JumpState.ModerateJump;
 				yvel = jumpPower;
 			} else {
+				AudioManager.PlaySound(AudioManager.main.jump, 1);
 				jump = JumpState.SlowJump;
 				yvel = jumpPower;
 			}
 			fastAirStraff = Mathf.Abs(xvel) > airStrafeFast;
-			audioSource.Play();
 		}
 		
 		// Horiztonal input
@@ -230,34 +234,36 @@ public class Mario : MonoBehaviour {
 	private void Move(Vector2 move) {
 		Vector2 curPos = transform.position;
 		Vector2 attemptPos = curPos + move;
-
 		CollisionInfo[] collisions = Actor.Collide(curPos, attemptPos, dimensions);
 		if (collisions.Length > 0) move = HandleCollisions(move, collisions);
-		
+
 		transform.position += new Vector3(move.x, move.y, 0);
 	}
 
-	Vector2 HandleCollisions(Vector2 move, CollisionInfo[] collisions) {
+		Vector2 HandleCollisions(Vector2 move, CollisionInfo[] collisions) {
 		bool hitTop = false;
 		CollisionInfo closestTopBlock = collisions[0];
 		grounded = false;
 
 		foreach (CollisionInfo collision in collisions) {
+			if (collision.obj.blockType == BlockType.flag) {
+				FlagPole();
+				return move;
+			}
 			if (collision.hitTop) {
-//				transform.position = new Vector2(transform.position.x,
-//					collision.obj.GetPosition().y + dimensions.y / 2 + collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
 				grounded = true;
 				if (collision.obj.blockType == BlockType.goomba) {
-					AudioManager.PlaySound(AudioManager.main.goomba);
+					AudioManager.PlaySound(AudioManager.main.goomba, 1);
 					Destroy(collision.obj.gameObject);
 					yvel = goombaJump;
 					move.y = goombaJump;
 					grounded = false;
 					score.AddScore(100);
 				}
-			} else if (collision.hitBottom) {
+			}
+			if (collision.hitBottom) {
 				if (collision.obj.blockType == BlockType.goomba) Hurt();
 				if (!hitTop) {
 					closestTopBlock = collision;
@@ -268,21 +274,16 @@ public class Mario : MonoBehaviour {
 						closestTopBlock = collision;
 					}
 				}
-//				transform.position = new Vector2(transform.position.x,
-//					collision.obj.GetPosition().y - dimensions.y / 2 - collision.obj.GetHeight() / 2);
 				move.y = 0;
 				yvel = 0;
 			}
 			if (collision.hitRight) {
 				if (collision.obj.blockType == BlockType.goomba) Hurt();
-//				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.GetWidth() / 2,
-//					transform.position.y);
 				move.x = 0;
 				xvel = 0;
-			} else if (collision.hitLeft) {
+			} 
+			if (collision.hitLeft) {
 				if (collision.obj.blockType == BlockType.goomba) Hurt();
-//				transform.position = new Vector2(collision.obj.GetPosition().x - dimensions.x / 2 - collision.obj.GetWidth() / 2,
-//					transform.position.y);
 				move.x = 0;
 				xvel = 0;
 			}
@@ -290,18 +291,68 @@ public class Mario : MonoBehaviour {
 		if (hitTop) HitTopBlock(closestTopBlock);
 		return move;
 	}
+	
+	private bool onFlag;
+	private int flagFrame;
+	private float topPole;
+
+	void FlagPole() {
+		flagFrame++;
+		if (flagFrame == 1) {
+			GameObject.Find("Time").GetComponent<Time>().stopClock = true;
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Pole"), 1);
+			animator.SetBool("isMega", poweredUp);
+			onFlag = true;
+			topPole = transform.position.y;
+			AudioManager.PlaySound(AudioManager.main.flag, 1);
+			Camera.main.GetComponent<AudioSource>().Stop();
+		} else if (flagFrame < 100) {
+			transform.position = new Vector2(195, Mathf.Lerp(topPole, -3f, flagFrame / 100f));
+		} else if (flagFrame == 100) {
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Pole"), 0);
+			animator.SetFloat("xvel", 1);
+			animator.SetBool("skidding", false);
+			animator.SetBool("jumping", false);
+			if (poweredUp) {
+				animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
+			} else {
+				animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
+			}
+			animator.SetBool("isMega", poweredUp);
+			AudioManager.PlaySound(AudioManager.main.win, 1);
+		} else if (flagFrame < 200) {
+			transform.position = new Vector2(Mathf.Lerp(196, 200, (flagFrame - 100) / 100f), -4);
+		} else if (flagFrame == 200) {
+			spriteRenderer.enabled = false;
+			GameObject.Find("Time").GetComponent<Time>().finishlevel = true;
+		}
+	}
 
 	void Hurt() {
 		dimensions = new Vector2(1, 1);
-		UnityEngine.Time.timeScale = 0;
 		StartCoroutine(HurtAnimation(0.2f));
 	}
 	
 	private IEnumerator HurtAnimation(float waitTime) {
 		if (!poweredUp) {
-			UnityEngine.Time.timeScale = 1;
+			UnityEngine.Time.timeScale = 0;
+			Camera.main.GetComponent<AudioSource>().Stop();
+			AudioManager.PlaySound(AudioManager.main.death, 1);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Death"), 1);
+			yield return new WaitForSecondsRealtime(1f);
+			gameover.SetActive(true);
+			yield return new WaitForSecondsRealtime(1f);
+			SceneManager.LoadScene("1-1");
 		} else {
+			UnityEngine.Time.timeScale = 0;
 			poweredUp = false;
+			AudioManager.PlaySound(AudioManager.main.pipe, 1);
 			Vector2 oldPosition = transform.position;
 			Vector2 newPosition = transform.position;
 			newPosition.y -= 0.4f;
@@ -330,13 +381,13 @@ public class Mario : MonoBehaviour {
 
 	void HitTopBlock(CollisionInfo collision) {
 		if (collision.obj.blockType == BlockType.breakable && poweredUp) {
-			AudioManager.PlaySound(AudioManager.main.breakBlock);
+			AudioManager.PlaySound(AudioManager.main.breakBlock, 1);
 			BreakTile(collision.obj.transform.position);
 			Destroy(collision.obj.gameObject);
 		} else if (collision.obj.blockType == BlockType.coinblock) {
 			Animator animator = collision.obj.gameObject.GetComponent<Animator>();
 			if (!animator.GetBool("used")) {
-				AudioManager.PlaySound(AudioManager.main.coin);
+				AudioManager.PlaySound(AudioManager.main.coin, 1);
 				coins.AddCoins(1);
 				score.AddScore(200);
 			}

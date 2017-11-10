@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 855dc7396df3c4e49ac4d21234eac5e1
-timeCreated: 1510119484
+timeCreated: 1510290887
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -15,10 +15,10 @@ TextureImporter:
     21300016: tiles_8
     21300018: tiles_9
     21300020: tiles_10
-    21300022: tiles_11
-    21300024: tiles_12
-    21300026: tiles_13
-    21300028: tiles_14
+    21300022: castle_jag
+    21300024: castle_windowjag
+    21300026: castle_tile
+    21300028: castle_window
     21300030: tiles_15
     21300032: tiles_16
     21300034: tiles_17
@@ -43,9 +43,9 @@ TextureImporter:
     21300072: tiles_36
     21300074: tiles_37
     21300076: tiles_38
-    21300078: tiles_39
-    21300080: tiles_40
-    21300082: tiles_41
+    21300078: castle_jagback
+    21300080: castle_doortop
+    21300082: castle_door
     21300084: tiles_42
     21300086: tiles_43
     21300088: tiles_44
@@ -260,7 +260,7 @@ TextureImporter:
     21300506: tiles_253
     21300508: tiles_254
     21300510: tiles_255
-    21300512: tiles_256
+    21300512: flag_top
     21300514: tiles_257
     21300516: tiles_258
     21300518: tiles_259
@@ -285,7 +285,7 @@ TextureImporter:
     21300556: background_bush_middle
     21300558: background_bush_right
     21300560: tiles_280
-    21300562: tiles_281
+    21300562: flag_pole
     21300564: tiles_282
     21300566: tiles_283
     21300568: tiles_284
@@ -844,7 +844,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_11
+      name: castle_jag
       rect:
         serializedVersion: 2
         x: 176
@@ -858,7 +858,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_12
+      name: castle_windowjag
       rect:
         serializedVersion: 2
         x: 192
@@ -872,7 +872,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_13
+      name: castle_tile
       rect:
         serializedVersion: 2
         x: 208
@@ -886,7 +886,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_14
+      name: castle_window
       rect:
         serializedVersion: 2
         x: 224
@@ -1236,7 +1236,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_39
+      name: castle_jagback
       rect:
         serializedVersion: 2
         x: 176
@@ -1250,7 +1250,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_40
+      name: castle_doortop
       rect:
         serializedVersion: 2
         x: 192
@@ -1264,7 +1264,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_41
+      name: castle_door
       rect:
         serializedVersion: 2
         x: 208
@@ -4246,7 +4246,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_256
+      name: flag_top
       rect:
         serializedVersion: 2
         x: 256
@@ -4582,7 +4582,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tiles_281
+      name: flag_pole
       rect:
         serializedVersion: 2
         x: 256

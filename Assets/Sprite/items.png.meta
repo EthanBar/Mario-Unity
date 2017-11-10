@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: cbe738a6b31804fbfa01d65f850d595b
-timeCreated: 1510084424
+timeCreated: 1510290915
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -10,7 +10,7 @@ TextureImporter:
     21300006: items_3
     21300008: items_4
     21300010: items_5
-    21300012: items_6
+    21300012: castle_flag
     21300014: items_7
     21300016: items_8
     21300018: items_9
@@ -71,7 +71,7 @@ TextureImporter:
     21300128: breakable_up
     21300130: items_65
     21300132: items_66
-    21300134: items_67
+    21300134: flag
     21300136: items_68
     21300138: items_69
     21300140: items_70
@@ -600,7 +600,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_6
+      name: castle_flag
       rect:
         serializedVersion: 2
         x: 128
@@ -1454,7 +1454,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_67
+      name: flag
       rect:
         serializedVersion: 2
         x: 128
@@ -6642,7 +6642,7 @@ TextureImporter:
         width: 7
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

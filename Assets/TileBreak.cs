@@ -8,7 +8,7 @@ public class TileBreak : MonoBehaviour {
 	private Vector2 velocity;
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		Vector2 position = transform.position;
 		position += velocity;
 		velocity += acceleration;

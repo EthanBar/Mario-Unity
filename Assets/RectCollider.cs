@@ -6,7 +6,7 @@ public class RectCollider : MonoBehaviour {
 	public BlockType blockType = BlockType.solid;
 	public Pickup pickup = Pickup.coin;
 	
-	private CollisionInfo noCollision; 
+	private static CollisionInfo noCollision; 
 	
 	private void Awake() {
 		Actor.RegisterCollider(this);
@@ -19,11 +19,31 @@ public class RectCollider : MonoBehaviour {
 		float widthCol = width / 2 + dimensions.x / 2 - 0.01f;
 		float heightCol = height / 2 + dimensions.y / 2 - 0.01f;
 		
-		bool withinX = myPosition.x < currentPosition.x + widthCol && myPosition.x > currentPosition.x - widthCol;
-		bool withinY = myPosition.y < currentPosition.y + heightCol && myPosition.y > currentPosition.y - heightCol;
+		bool withinX = myPosition.x <= currentPosition.x + widthCol && myPosition.x >= currentPosition.x - widthCol;
+		bool withinY = myPosition.y <= currentPosition.y + heightCol && myPosition.y >= currentPosition.y - heightCol;
 		if (!withinX && !withinY) return noCollision;
 
 		bool[] collisions = new bool[4];
+//		if (Mathf.Abs(dx) <= widthCol && Mathf.Abs(dy) <= heightCol)
+//		{
+//			/* collision! */
+//			float wy = widthCol * dy;
+//			float hx = heightCol * dx;
+//
+//			if (wy > hx) {
+//				if (wy > -hx) {
+//					collisions[3] = true;
+//				} else {
+//					collisions[1] = true;
+//				}
+//			} else {
+//				if (wy > -hx) {
+//					collisions[0] = true;
+//				} else {
+//					collisions[2] = true;
+//				}
+//			}
+//		}
 		if (withinX && currentPosition.y >= myPosition.y + heightCol) {
 			if (newPosition.y <= myPosition.y + heightCol) {
 				collisions[1] = true;
@@ -87,7 +107,8 @@ public enum BlockType {
 	solid,
 	breakable,
 	coinblock,
-	goomba
+	goomba,
+	flag
 }
 
 [System.Serializable]
