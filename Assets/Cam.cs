@@ -13,7 +13,7 @@ public class Cam : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if (mario.position.x > transform.position.x) {
 			transform.position =  new Vector3(mario.position.x, transform.position.y, -10);
 		}

@@ -44,8 +44,11 @@ public class Mario : MonoBehaviour {
 	private const float airStrafeFast = 7424 / conversion; 
 	
 	private const float goombaJump = 18432 / conversion;
+
+	private bool poweredUp;
 	// Use this for initialization
 	void Start () {
+		poweredUp = true;
 		animator = GetComponent<Animator>();
 		mario = this;
 		xvel = 0;
@@ -290,30 +293,43 @@ public class Mario : MonoBehaviour {
 
 	void Hurt() {
 		dimensions = new Vector2(1, 1);
-		UnityEngine.Time.fixedDeltaTime = 0;
+		UnityEngine.Time.timeScale = 0;
 		StartCoroutine(HurtAnimation(0.2f));
 	}
 	
 	private IEnumerator HurtAnimation(float waitTime) {
-		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
-		yield return new WaitForSecondsRealtime(waitTime);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
-		yield return new WaitForSecondsRealtime(waitTime);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
-		yield return new WaitForSecondsRealtime(waitTime);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
-		yield return new WaitForSecondsRealtime(waitTime);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
-		animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
-		UnityEngine.Time.fixedDeltaTime = 1f / 60;
+		if (!poweredUp) {
+			UnityEngine.Time.timeScale = 1;
+		} else {
+			poweredUp = false;
+			Vector2 oldPosition = transform.position;
+			Vector2 newPosition = transform.position;
+			newPosition.y -= 0.4f;
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+			transform.position = newPosition;
+			yield return new WaitForSecondsRealtime(waitTime);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
+			transform.position = oldPosition;
+			yield return new WaitForSecondsRealtime(waitTime);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+			transform.position = newPosition;
+			yield return new WaitForSecondsRealtime(waitTime);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 0);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 1);
+			transform.position = oldPosition;
+			yield return new WaitForSecondsRealtime(waitTime);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mini"), 1);
+			animator.SetLayerWeight(animator.GetLayerIndex("Mega"), 0);
+			transform.position = newPosition;
+			UnityEngine.Time.timeScale = 1;
+		}
 	}
 
 	void HitTopBlock(CollisionInfo collision) {
-		if (collision.obj.blockType == BlockType.breakable) {
+		if (collision.obj.blockType == BlockType.breakable && poweredUp) {
 			AudioManager.PlaySound(AudioManager.main.breakBlock);
 			BreakTile(collision.obj.transform.position);
 			Destroy(collision.obj.gameObject);
