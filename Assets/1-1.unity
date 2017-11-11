@@ -7648,6 +7648,7 @@ MonoBehaviour:
   flag: {fileID: 8300000, guid: 0a4eda3df836a4e309562c4c66f6cef7, type: 3}
   win: {fileID: 8300000, guid: fd92bc37d89a0456e9488fd83d53e81f, type: 3}
   beep: {fileID: 8300000, guid: a0b36352006764927b0bd2d81daa15ac, type: 3}
+  bump: {fileID: 8300000, guid: 8c4927f1ead9e4d41ae5752f40e407d5, type: 3}
 --- !u!1001 &294184469
 Prefab:
   m_ObjectHideFlags: 0
@@ -10274,6 +10275,7 @@ MonoBehaviour:
   flag: {fileID: 977114614}
   breakTile: {fileID: 1704046867122194, guid: 68dc840ab62f7450896eb3dd3cf04a68, type: 2}
   gameover: {fileID: 2137641150}
+  floatText: {fileID: 1041812042545626, guid: 24db37c11a79844faa863424623fff1e, type: 2}
 --- !u!82 &366019860
 AudioSource:
   m_ObjectHideFlags: 0

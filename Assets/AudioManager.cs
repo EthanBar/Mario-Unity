@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip win;
 	
 	public AudioClip beep;
+	public AudioClip bump;
 
 	private void Awake() {
 		main = this;

@@ -19,7 +19,9 @@ public class Mario : MonoBehaviour {
 	public GameObject flag;
 	public GameObject breakTile;
 	public GameObject gameover;
+	public GameObject floatText;
 
+	
 	private const float conversion = 65536; // == 0x10000
 	private const float maxRunX = 10496 / conversion;
 	private const float maxWalkX = 6400 / conversion;
@@ -224,6 +226,10 @@ public class Mario : MonoBehaviour {
 		// Move according to velocities
 		Move(new Vector2(xvel, yvel));
 		if (jumping) jumping = !grounded;
+
+		if (transform.position.y < -8) {
+			StartCoroutine(GetHurt(true));
+		}
 		
 		// Set animator variables
 		animator.SetFloat("xvel", Mathf.Abs(xvel));
@@ -261,11 +267,11 @@ public class Mario : MonoBehaviour {
 					yvel = goombaJump;
 					move.y = goombaJump;
 					grounded = false;
-					score.AddScore(100);
+					AddPoints(100, true, collision.obj.transform.position);
 				}
 			}
 			if (collision.hitBottom) {
-				if (collision.obj.blockType == BlockType.goomba) Hurt();
+				if (collision.obj.blockType == BlockType.goomba) StartCoroutine(GetHurt(false));
 				if (!hitTop) {
 					closestTopBlock = collision;
 					hitTop = true;
@@ -279,12 +285,12 @@ public class Mario : MonoBehaviour {
 				yvel = 0;
 			}
 			if (collision.hitRight) {
-				if (collision.obj.blockType == BlockType.goomba) Hurt();
+				if (collision.obj.blockType == BlockType.goomba) StartCoroutine(GetHurt(false));
 				move.x = 0;
 				xvel = 0;
 			} 
 			if (collision.hitLeft) {
-				if (collision.obj.blockType == BlockType.goomba) Hurt();
+				if (collision.obj.blockType == BlockType.goomba) StartCoroutine(GetHurt(false));
 				move.x = 0;
 				xvel = 0;
 			}
@@ -302,13 +308,10 @@ public class Mario : MonoBehaviour {
 		flag.GetComponent<EndLevel>().HitPole(animator, this, spriteRenderer, poweredUp);
 	}
 
-	void Hurt() {
-		dimensions = new Vector2(1, 1);
-		StartCoroutine(HurtAnimation(0.2f));
-	}
 	
-	private IEnumerator HurtAnimation(float waitTime) {
-		if (!poweredUp) {
+	private IEnumerator GetHurt(bool kill) {
+		float waitTime = 0.2f;
+		if (!poweredUp || kill) {
 			UnityEngine.Time.timeScale = 0;
 			Camera.main.GetComponent<AudioSource>().Stop();
 			AudioManager.PlaySound(AudioManager.main.death, 1);
@@ -317,10 +320,11 @@ public class Mario : MonoBehaviour {
 			animator.SetLayerWeight(animator.GetLayerIndex("Death"), 1);
 			yield return new WaitForSecondsRealtime(1f);
 			gameover.SetActive(true);
-			yield return new WaitForSecondsRealtime(1f);
+			yield return new WaitForSecondsRealtime(4f);
 			UnityEngine.Time.timeScale = 1;
 			SceneManager.LoadScene("1-1");
 		} else {
+			dimensions = new Vector2(1, 1);
 			UnityEngine.Time.timeScale = 0;
 			poweredUp = false;
 			AudioManager.PlaySound(AudioManager.main.pipe, 1);
@@ -364,12 +368,23 @@ public class Mario : MonoBehaviour {
 			if (!animator.GetBool("used")) {
 				AudioManager.PlaySound(AudioManager.main.coin, 1);
 				coins.AddCoins(1);
-				score.AddScore(200);
+				AddPoints(200, true, collision.obj.transform.position);
+				animator.SetBool("used", true);
+				collision.obj.StartBounce();
 			}
-			animator.SetBool("used", true);
 		} else {
 			collision.obj.StartBounce();
 		}
+	}
+
+	void AddPoints(int points, bool drawText, Vector2 position) {
+		score.AddScore(points);
+		if (!drawText) return;
+		Vector2 screenCoords = Camera.main.WorldToScreenPoint(new Vector2(position.x, position.y + 0.5f));
+		screenCoords.x = (int) screenCoords.x;
+		screenCoords.y = (int) screenCoords.y;
+		Instantiate(floatText, screenCoords, Quaternion.identity)
+			.GetComponent<PointText>().SetPoints(points);
 	}
 
 	void BreakTile(Vector2 position) {

@@ -93,7 +93,7 @@ public class RectCollider : MonoBehaviour {
 	private Vector2 originalposition;
 
 	private static readonly float[] yoffsets = {
-		0.01f, 0.02f, 0.04f, 0.07f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.33f, 0.36f, 0.38f, 0.39f
+		0.04f, 0.08f, 0.15f, 0.23f, 0.3f, 0.4f, 0.45f, 0.48f, 0.5f
 	};
 
 	private void Bounce() {
@@ -110,36 +110,22 @@ public class RectCollider : MonoBehaviour {
 	}
 	
 	public void StartBounce() {
+		AudioManager.PlaySound(AudioManager.main.bump, 1);
 		bouncing = true;
 		bounceFrame = 0;
 		originalposition = transform.position;
 		Transform enemies = GameObject.Find("Enemies").transform;
 		for (int i = 0; i < enemies.childCount; i++) {
 			Transform enemie = enemies.GetChild(i);
-			if (enemie.position.y > transform.position.y && enemie.position.y < transform.position.y + 1.5f) {
-				Destroy(enemie);
+			if (enemie.position.y > transform.position.y && enemie.position.y < transform.position.y + 1.5f &&
+			    enemie.position.x > transform.position.x - 1 && enemie.position.x < transform.position.x + 1) {
+				Destroy(enemie.gameObject);
 			}
 		}
 	}
-
-	public GameObject GetGameObject() {
-		return gameObject;
-	}
-
-	public float GetWidth() {
-		return width;
-	}
 	
-	public float GetHeight() {
-		return height;
-	}
-
 	public Vector2 GetPosition() {
 		return transform.position;
-	}
-
-	public BlockType GetBlockType() {
-		return blockType;
 	}
 
 	private void OnDestroy() {

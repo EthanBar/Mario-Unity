@@ -25,20 +25,20 @@ public class Gomba : MonoBehaviour {
 			new Vector2(transform.position.x, transform.position.y) + move, dimensions);
 		foreach (CollisionInfo collision in collisions) {
 			if (collision.hitTop) {
-				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y + dimensions.y / 2 + collision.obj.GetHeight() / 2);
+				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y + dimensions.y / 2 + collision.obj.height / 2);
 				move.y = 0;
 				downAcc = 0;
 			} else if (collision.hitBottom) {
-				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y - dimensions.y / 2 - collision.obj.GetHeight() / 2);
+				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y - dimensions.y / 2 - collision.obj.height / 2);
 				move.y = 0;
 				downAcc = 0;
 			}
 			if (collision.hitRight) {
-				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.GetWidth() / 2, transform.position.y);
+				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.width / 2, transform.position.y);
 				move.x *= -1;
 				right = 1;
 			} else if (collision.hitLeft) {
-				transform.position = new Vector2(collision.obj.GetPosition().x - dimensions.x / 2 - collision.obj.GetWidth() / 2, transform.position.y);
+				transform.position = new Vector2(collision.obj.GetPosition().x - dimensions.x / 2 - collision.obj.width / 2, transform.position.y);
 				move.x *= -1;
 				right = -1;
 			}
