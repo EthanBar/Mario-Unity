@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gomba : MonoBehaviour {
+public class Goomba : MonoBehaviour {
 	private float right;
 	public Vector2 dimensions;
 	private bool active;
-	
+	private bool dead;
 	private float downAcc;
 	
 	void Start () {
 	    right = -1;
+		dead = false;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		active = Mathf.Abs(transform.position.x - Mario.mario.transform.position.x) <= 9;
+		if (dead) {
+			Fall();
+			return;
+		}
+		active = Mathf.Abs(transform.position.x - Mario.mario.transform.position.x) <= 14;
 		if (!active) return;
-		if (transform.position.x - Mario.mario.transform.position.x >= 9) Destroy(gameObject);
+		if (transform.position.x - Mario.mario.transform.position.x >= 15) Destroy(gameObject);
 		float rightmove = 0.035f * right;
 		Vector2 move = new Vector2(rightmove, downAcc);
 		downAcc -= 0.0184f;
@@ -44,5 +49,23 @@ public class Gomba : MonoBehaviour {
 			}
 		}
 		transform.position = new Vector2(transform.position.x, transform.position.y) + move;
+	}
+
+	void Fall() {
+		Vector2 position = transform.position;
+		position.x += 0.035f;
+		position.y += downAcc;
+		transform.position = position;
+		downAcc -= 0.01f;
+		if (position.y < -8) {
+			Destroy(gameObject);
+		}
+	}
+
+	public void Kill() {
+		dead = true;
+		Destroy(GetComponent<RectCollider>());
+		GetComponent<SpriteRenderer>().flipY = true;
+		downAcc = 0.1f;
 	}
 }

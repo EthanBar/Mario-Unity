@@ -247,7 +247,7 @@ public class Mario : MonoBehaviour {
 		transform.position += new Vector3(move.x, move.y, 0);
 	}
 
-		Vector2 HandleCollisions(Vector2 move, CollisionInfo[] collisions) {
+	Vector2 HandleCollisions(Vector2 move, CollisionInfo[] collisions) {
 		bool hitTop = false;
 		CollisionInfo closestTopBlock = collisions[0];
 		grounded = false;
@@ -263,7 +263,7 @@ public class Mario : MonoBehaviour {
 				grounded = true;
 				if (collision.obj.blockType == BlockType.goomba) {
 					AudioManager.PlaySound(AudioManager.main.goomba, 1);
-					Destroy(collision.obj.gameObject);
+					collision.obj.GetComponent<Goomba>().Kill();
 					yvel = goombaJump;
 					move.y = goombaJump;
 					grounded = false;
@@ -377,13 +377,13 @@ public class Mario : MonoBehaviour {
 		}
 	}
 
-	void AddPoints(int points, bool drawText, Vector2 position) {
-		score.AddScore(points);
+	public static void AddPoints(int points, bool drawText, Vector2 position) {
+		mario.score.AddScore(points);
 		if (!drawText) return;
 		Vector2 screenCoords = Camera.main.WorldToScreenPoint(new Vector2(position.x, position.y + 0.5f));
 		screenCoords.x = (int) screenCoords.x;
 		screenCoords.y = (int) screenCoords.y;
-		Instantiate(floatText, screenCoords, Quaternion.identity)
+		Instantiate(mario.floatText, screenCoords, Quaternion.identity)
 			.GetComponent<PointText>().SetPoints(points);
 	}
 

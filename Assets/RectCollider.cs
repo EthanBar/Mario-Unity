@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditorInternal;
+using UnityEngine;
 using Time = UnityEngine.Time;
 
 public class RectCollider : MonoBehaviour {
@@ -119,7 +120,10 @@ public class RectCollider : MonoBehaviour {
 			Transform enemie = enemies.GetChild(i);
 			if (enemie.position.y > transform.position.y && enemie.position.y < transform.position.y + 1.5f &&
 			    enemie.position.x > transform.position.x - 1 && enemie.position.x < transform.position.x + 1) {
-				Destroy(enemie.gameObject);
+				Goomba goomba = enemie.GetComponent<Goomba>();
+				if (goomba != null) {
+					goomba.Kill();
+				} else Destroy(enemie.gameObject);
 			}
 		}
 	}
