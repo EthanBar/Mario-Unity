@@ -27,7 +27,7 @@ public class Goomba : MonoBehaviour {
 		Vector2 move = new Vector2(rightmove, downAcc);
 		downAcc -= 0.0184f;
 		CollisionInfo[] collisions = Actor.Collide(transform.position,
-			new Vector2(transform.position.x, transform.position.y) + move, dimensions);
+			new Vector2(transform.position.x, transform.position.y) + move, dimensions, 0.01f);
 		foreach (CollisionInfo collision in collisions) {
 			if (collision.hitTop) {
 				transform.position = new Vector2(transform.position.x, collision.obj.GetPosition().y + dimensions.y / 2 + collision.obj.height / 2);
@@ -39,6 +39,7 @@ public class Goomba : MonoBehaviour {
 				downAcc = 0;
 			}
 			if (collision.hitRight) {
+				print(collision.obj.name);
 				transform.position = new Vector2(collision.obj.GetPosition().x + dimensions.x / 2 + collision.obj.width / 2, transform.position.y);
 				move.x *= -1;
 				right = 1;

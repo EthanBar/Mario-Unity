@@ -2356,7 +2356,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2385,6 +2385,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -3582,7 +3592,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3611,6 +3621,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -4181,7 +4201,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -4210,6 +4230,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -10254,7 +10284,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 366019855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -4, z: 0}
+  m_LocalPosition: {x: 3, y: -3.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -15595,7 +15625,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -15624,6 +15654,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -21338,7 +21378,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -21367,6 +21407,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -21567,7 +21617,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -21596,6 +21646,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -31190,7 +31250,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -31219,6 +31279,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -36218,11 +36288,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: -0.904
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.46
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -36247,6 +36317,16 @@ Prefab:
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -38395,7 +38475,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -38424,6 +38504,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -40655,7 +40745,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -40684,6 +40774,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -45902,7 +46002,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -45931,6 +46031,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -49798,7 +49908,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -49827,6 +49937,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -51345,7 +51465,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -51374,6 +51494,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -53262,7 +53392,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: 3.6999998
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -53291,6 +53421,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -54036,7 +54176,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: 3.6999998
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -54065,6 +54205,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
@@ -56859,7 +57009,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -4.5
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 4482271598384384, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_LocalPosition.z
@@ -56888,6 +57038,16 @@ Prefab:
     - target: {fileID: 1350877646539354, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}
       propertyPath: m_Name
       value: gomba (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114101423352200226, guid: f6f99d2c27be84815a710c7dffe82417,
+        type: 2}
+      propertyPath: dimensions.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f99d2c27be84815a710c7dffe82417, type: 2}

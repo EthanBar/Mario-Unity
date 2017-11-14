@@ -39,11 +39,11 @@ public class RectCollider : MonoBehaviour {
 	private bool bouncing;
 	private int bounceFrame;
 
-	public CollisionInfo Collide(Vector2 dimensions, Vector2 currentPosition, Vector2 newPosition) {
+	public CollisionInfo Collide(Vector2 dimensions, Vector2 currentPosition, Vector2 newPosition, float shorten) {
 		Vector2 myPosition = transform.position;
 
-		float widthCol = width / 2 + dimensions.x / 2 - 0.01f;
-		float heightCol = height / 2 + dimensions.y / 2 - 0.01f;
+		float widthCol = width / 2 + dimensions.x / 2 - shorten;
+		float heightCol = height / 2 + dimensions.y / 2 - shorten;
 		
 		bool withinX = myPosition.x <= currentPosition.x + widthCol && myPosition.x >= currentPosition.x - widthCol;
 		bool withinY = myPosition.y <= currentPosition.y + heightCol && myPosition.y >= currentPosition.y - heightCol;

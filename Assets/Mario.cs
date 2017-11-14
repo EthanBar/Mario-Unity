@@ -241,7 +241,7 @@ public class Mario : MonoBehaviour {
 	private void Move(Vector2 move) {
 		Vector2 curPos = transform.position;
 		Vector2 attemptPos = curPos + move;
-		CollisionInfo[] collisions = Actor.Collide(curPos, attemptPos, dimensions);
+		CollisionInfo[] collisions = Actor.Collide(curPos, attemptPos, dimensions, 0);
 		if (collisions.Length > 0) move = HandleCollisions(move, collisions);
 
 		transform.position += new Vector3(move.x, move.y, 0);
